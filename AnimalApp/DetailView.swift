@@ -6,37 +6,6 @@
 //
 
 import SwiftUI
-import AVKit
-
-class SoundManager {
-    
-    static let instance = SoundManager()
-    var player: AVAudioPlayer?
-    
-    enum SoundOption: String {
-        case Pig
-        case Sheep
-    }
-    
-    func playSound(sound: SoundOption) {
-        
-        guard let url = Bundle.main.url(forResource: sound.rawValue, withExtension: ".mp3") else { return }
-        
-        do {
-            
-            player = try AVAudioPlayer(contentsOf: url)
-            player?.play()
-            
-        } catch let error {
-            
-            print("Error playing sound. \(error.localizedDescription)")
-            
-        }//end do
-        
-    }//end playSound
-    
-}//end SoundManager
-
 
 struct DetailView: View {
     
@@ -72,19 +41,22 @@ struct DetailView: View {
                 Spacer()
                 
                 Link( destination: animal.url, label:{
-                    Text("see more")
+                    Text("learn more")
+                        .foregroundColor(Color.green)
                 })
                 
                 Spacer()
                 
-                Button(action: {//.imageName = .Pig/.Sheep
-                    SoundManager.instance.playSound(sound: .Pig)
+                Button(action: {
+                    // PLAY SOUND HERE
+                    playSound(key: animal.name)
+                    
                 }) {
                     VStack {
-                        Text("Hear Me!")
                         Image(systemName: "play.circle.fill").resizable()
-                            .frame(width: 25, height: 25)
+                            .frame(width: 45, height: 45)
                             .aspectRatio(contentMode: .fit)
+                            .foregroundColor(Color.green)
                     }
                 }
                 
@@ -96,6 +68,7 @@ struct DetailView: View {
         }.padding()
         
     }
+    
 }
 
 struct DetailView_Previews: PreviewProvider {
